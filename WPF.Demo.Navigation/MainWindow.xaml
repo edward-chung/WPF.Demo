@@ -1,0 +1,135 @@
+﻿<Window x:Class="WPF.Demo.Navigation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF.Demo.Navigation"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:be="clr-namespace:WPF.Demo.Navigation.Behaviors"
+        Title="MainWindow"
+        Width="600"
+        Height="300"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="MenuButtonBase" TargetType="RadioButton">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Foreground" Value="#61666D" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style x:Key="ChannelMenuButton" TargetType="RadioButton" BasedOn="{StaticResource MenuButtonBase}">
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border Padding="{TemplateBinding Padding}" Background="Transparent">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF6699" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Foreground" Value="#FF6699" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PersonalSpaceMenuButton" TargetType="RadioButton" BasedOn="{StaticResource MenuButtonBase}">
+            <Setter Property="Margin" Value="16,8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border Background="Transparent">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#00a1d6" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Foreground" Value="#00a1d6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <!--#region bilibili window client top navigation-->
+        <Grid>
+            <Grid x:Name="PART_Sliding"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Background="Transparent">
+                <Rectangle Width="18"
+                           Height="3"
+                           Margin="0,0,0,-3"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Fill="#FF6699" />
+                <Grid.RenderTransform>
+                    <TranslateTransform />
+                </Grid.RenderTransform>
+            </Grid>
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <i:Interaction.Behaviors>
+                    <be:SlidingNavigationBehavior SlidingName="PART_Sliding" />
+                </i:Interaction.Behaviors>
+                <RadioButton Content="直播" Style="{StaticResource ChannelMenuButton}" />
+                <RadioButton Content="推荐" Style="{StaticResource ChannelMenuButton}" IsChecked="True" />
+                <RadioButton Content="热门" Style="{StaticResource ChannelMenuButton}" />
+                <RadioButton Content="追番" Style="{StaticResource ChannelMenuButton}" />
+                <RadioButton Content="影视" Style="{StaticResource ChannelMenuButton}" />
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region bilibili web personal space navigation-->
+        <Grid Grid.Row="1">
+            <Border x:Name="PART_Sliding1"
+                    Margin="0,0,0,-3"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderThickness="0,0,0,3"
+                    BorderBrush="#00a1d6">
+                <Border.RenderTransform>
+                    <TranslateTransform />
+                </Border.RenderTransform>
+            </Border>
+            <ItemsControl VerticalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <i:Interaction.Behaviors>
+                    <be:SlidingNavigationBehavior SlidingName="PART_Sliding1" />
+                </i:Interaction.Behaviors>
+                <RadioButton Content="主页" Style="{StaticResource PersonalSpaceMenuButton}" />
+                <RadioButton Content="动态" Style="{StaticResource PersonalSpaceMenuButton}" />
+                <RadioButton Content="投稿" Style="{StaticResource PersonalSpaceMenuButton}" />
+                <RadioButton Content="合集和列表" Style="{StaticResource PersonalSpaceMenuButton}" />
+                <RadioButton Content="收藏" Style="{StaticResource PersonalSpaceMenuButton}" IsChecked="True" />
+                <RadioButton Content="订阅" Style="{StaticResource PersonalSpaceMenuButton}" />
+                <RadioButton Content="设置" Style="{StaticResource PersonalSpaceMenuButton}" />
+            </ItemsControl>
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+</Window>
